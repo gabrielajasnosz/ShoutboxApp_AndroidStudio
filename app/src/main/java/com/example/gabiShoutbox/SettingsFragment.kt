@@ -1,4 +1,4 @@
-package com.example.ppsm_budzik_shoutbox.ui.settings
+package com.example.gabiShoutbox
 
 import android.content.Context
 import android.os.Bundle
@@ -7,20 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import androidx.core.view.get
-import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
-import com.example.ppsm_budzik_shoutbox.R
-import com.example.ppsm_budzik_shoutbox.ui.shoutbox.ShoutboxFragment
-import com.example.ppsm_budzik_shoutbox.ui.shoutbox.ShoutboxViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var settingsViewModel: SettingsViewModel
     private lateinit var editText: EditText
 
     override fun onCreateView(
@@ -29,8 +20,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View? {
-        settingsViewModel =
-            ViewModelProviders.of(this).get(SettingsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_settings, container, false)
         val button = root.findViewById<Button>(R.id.loginButton)
 

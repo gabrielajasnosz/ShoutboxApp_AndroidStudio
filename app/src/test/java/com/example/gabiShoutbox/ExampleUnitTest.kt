@@ -1,4 +1,4 @@
-package com.example.ppsm_budzik_shoutbox
+package com.example.gabiShoutbox
 
 import org.junit.Test
 

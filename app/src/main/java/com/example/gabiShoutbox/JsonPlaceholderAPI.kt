@@ -1,6 +1,5 @@
-package com.example.lab9_f
 
-import com.example.ppsm_budzik_shoutbox.Message
+import com.example.gabiShoutbox.Message
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

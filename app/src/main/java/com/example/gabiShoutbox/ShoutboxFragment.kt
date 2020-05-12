@@ -1,17 +1,13 @@
-package com.example.ppsm_budzik_shoutbox.ui.shoutbox
+package com.example.gabiShoutbox
 
+import JsonPlaceholderAPI
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lab9_f.JsonPlaceholderAPI
-import com.example.ppsm_budzik_shoutbox.CustomAdapter
-import com.example.ppsm_budzik_shoutbox.Message
-import com.example.ppsm_budzik_shoutbox.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_shoutbox.*
 import retrofit2.Call
@@ -22,15 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ShoutboxFragment : Fragment() {
 
-    private lateinit var shoutboxViewModel: ShoutboxViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        shoutboxViewModel =
-            ViewModelProviders.of(this).get(ShoutboxViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_shoutbox, container, false)
 
         //////////json

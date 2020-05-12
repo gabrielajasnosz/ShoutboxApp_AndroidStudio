@@ -19,8 +19,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="355dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -29,20 +29,25 @@
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
+                    android:layout_width="345dp"
+                    android:layout_height="107dp"
+                    android:layout_margin="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/contentTextView"
+                    app:layout_constraintTop_toTopOf="@+id/contentTextView">
 
                     <TextView
                         android:id="@+id/loginTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_width="83dp"
+                        android:layout_height="29dp"
                         android:text="login"
                         android:textColor="#000000"
                         android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/contentTextView"
+                        app:layout_constraintEnd_toStartOf="@+id/dateTextView"
+                        app:layout_constraintHorizontal_bias="0.067"
                         app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="0dp" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
 
                     <TextView
                         android:id="@+id/dateTextView"
@@ -50,32 +55,51 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:text="00-00-0000"
+                        android:textAlignment="center"
                         android:textColor="#000000"
-                        android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.915"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/timeTextView"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:ignore="RtlCompat" />
 
                     <TextView
                         android:id="@+id/timeTextView"
-                        android:layout_width="200px"
-                        android:layout_height="wrap_content"
+                        android:layout_width="63dp"
+                        android:layout_height="22dp"
                         android:layout_gravity="end"
-                        android:layout_marginEnd="8dp"
                         android:text="12:12:12"
+                        android:textAlignment="center"
                         android:textColor="#000000"
-                        android:textSize="18sp"
-                        app:layout_constraintEnd_toStartOf="@+id/dateTextView"
-                        tools:layout_editor_absoluteY="0dp" />
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/contentTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.926"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.025"
+                        tools:ignore="RtlCompat" />
+
+                    <TextView
+                        android:id="@+id/contentTextView"
+                        android:layout_width="326dp"
+                        android:layout_height="46dp"
+                        android:layout_margin="8dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="Lorem ipsum dolor sit amet"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/contentTextView"
-                android:layout_width="match_parent"
-                android:layout_height="29dp"
-                android:layout_margin="8dp"
-                android:text="Lorem ipsum dolor sit amet"
-                android:textSize="16sp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

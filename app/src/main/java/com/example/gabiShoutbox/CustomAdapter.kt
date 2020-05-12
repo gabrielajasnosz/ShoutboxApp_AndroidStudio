@@ -1,4 +1,4 @@
-package com.example.ppsm_budzik_shoutbox
+package com.example.gabiShoutbox
 
 import android.view.LayoutInflater
 import android.view.View

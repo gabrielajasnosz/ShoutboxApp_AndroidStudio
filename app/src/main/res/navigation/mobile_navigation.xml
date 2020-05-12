@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_shoutbox"
-        android:name="com.example.ppsm_budzik_shoutbox.ui.shoutbox.ShoutboxFragment"
+        android:name="com.example.gabiShoutbox.ShoutboxFragment"
         android:label="@string/menu_shoutbox"
-        tools:layout="@layout/fragment_shoutbox"></fragment>
+        tools:layout="@layout/fragment_shoutbox" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.ppsm_budzik_shoutbox.ui.settings.SettingsFragment"
+        android:name="com.example.gabiShoutbox.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

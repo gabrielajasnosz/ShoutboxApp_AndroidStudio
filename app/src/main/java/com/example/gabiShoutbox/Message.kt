@@ -1,6 +1,4 @@
-package com.example.ppsm_budzik_shoutbox
-
-import java.util.*
+package com.example.gabiShoutbox
 
 import java.io.Serializable
 

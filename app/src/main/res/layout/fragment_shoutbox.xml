@@ -4,46 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.shoutbox.ShoutboxFragment">
+    tools:context=".ShoutboxFragment">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="753dp"
-        android:layout_height="64dp"
-        android:background="@drawable/toolbar_background"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-99dp" />
-
-    <ImageView
-        android:id="@+id/hamburgerIcon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="openCloseNavigationDrawer"
-        android:src="@drawable/menu_hamburger_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Shoutbox"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="360dp"
+        android:layout_height="638dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
