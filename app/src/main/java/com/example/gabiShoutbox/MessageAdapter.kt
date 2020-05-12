@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.list_layout.view.*
+import kotlinx.android.synthetic.main.item_layout.view.*
 
-class CustomAdapter(private val exampleList: Array<Message>) :
-    RecyclerView.Adapter<CustomAdapter.ExampleViewHolder>() {
+class MessageAdapter(private val exampleList: Array<Message>) :
+    RecyclerView.Adapter<MessageAdapter.ExampleViewHolder>() {
     class ExampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textContent: TextView = itemView.contentTextView;
         val textLogin: TextView = itemView.loginTextView;
@@ -18,7 +18,7 @@ class CustomAdapter(private val exampleList: Array<Message>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.list_layout,
+            R.layout.item_layout,
             parent, false
         )
         return ExampleViewHolder(itemView)

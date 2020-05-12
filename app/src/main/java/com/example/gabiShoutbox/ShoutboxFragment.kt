@@ -41,14 +41,6 @@ class ShoutboxFragment : Fragment() {
         return root
     }
 
-    fun openCloseNavigationDrawer(view: View) {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            drawer_layout.openDrawer(GravityCompat.START)
-        }
-    }
-
     fun createJsonGet(jsonPlaceholderAPI: JsonPlaceholderAPI) {
         val call = jsonPlaceholderAPI.getMessageArray()
         call!!.enqueue(object : Callback<Array<Message>?> {
@@ -61,7 +53,7 @@ class ShoutboxFragment : Fragment() {
                     return
                 }
                 val messagesData = response.body()!!
-                recyclerView.adapter = CustomAdapter(messagesData)
+                recyclerView.adapter = MessageAdapter(messagesData)
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.setHasFixedSize(true)
             }

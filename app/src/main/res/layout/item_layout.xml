@@ -44,10 +44,10 @@
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@+id/contentTextView"
                         app:layout_constraintEnd_toStartOf="@+id/dateTextView"
-                        app:layout_constraintHorizontal_bias="0.067"
+                        app:layout_constraintHorizontal_bias="0.059"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintVertical_bias="0.166" />
 
                     <TextView
                         android:id="@+id/dateTextView"
@@ -60,7 +60,7 @@
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.915"
+                        app:layout_constraintHorizontal_bias="0.971"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/timeTextView"
                         app:layout_constraintVertical_bias="0.0"
@@ -77,10 +77,10 @@
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@+id/contentTextView"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.926"
+                        app:layout_constraintHorizontal_bias="0.971"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.025"
+                        app:layout_constraintVertical_bias="0.051"
                         tools:ignore="RtlCompat" />
 
                     <TextView
