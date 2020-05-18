@@ -159,7 +159,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             } else {
                 Log.d("Executors thread: ", "Brak polaczenia z internetem")
             }
-        }, 0, 2, TimeUnit.SECONDS)
+        }, 0, 10, TimeUnit.SECONDS)
     }
 
 }
