@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.gabi.shoutboxx.SettingsActivity"
+            android:name="com.example.gabiShoutbox.SettingsActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity

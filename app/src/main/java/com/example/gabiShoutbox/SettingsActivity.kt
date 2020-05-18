@@ -1,11 +1,10 @@
-package com.gabi.shoutboxx
+package com.example.gabiShoutbox
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gabiShoutbox.R
 
 
 class SettingsActivity : AppCompatActivity() {
