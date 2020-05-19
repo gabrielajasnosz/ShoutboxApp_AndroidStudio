@@ -40,7 +40,6 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_shoutbox, container, false)
 
-        //////////json
         retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(
                 GsonConverterFactory
@@ -48,11 +47,6 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             )
             .build()
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
-        ////json
-
-
-
-
 
         beginRefreshing()
 
@@ -61,9 +55,9 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             if (checkNetworkConnection()) {
                 getAndShowData(jsonPlaceholderAPI)
                 swipeRefresh.isRefreshing = false
-                makeToast("Odswiezono wiadomosci")
+                makeToast("Data refreshed.")
             } else {
-                makeToast("Brak polaczenia z internetem")
+                makeToast("No internet connection.")
             }
         }
         return root
@@ -96,8 +90,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             override fun onFailure(
                 call: Call<Array<Message>?>,
                 t: Throwable
-            ) {
-                println(t.message)
+            ) { println(t.message)
             }
         })
     }
@@ -154,7 +147,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                 ?.remove(this)
                 ?.commit()
         } else {
-            makeToast("You can only edit your own messages!!!")
+            makeToast("You can't change this message.")
         }
     }
 

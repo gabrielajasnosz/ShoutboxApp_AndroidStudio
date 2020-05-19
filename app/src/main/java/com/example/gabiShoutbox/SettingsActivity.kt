@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-
+import com.google.android.material.navigation.NavigationView
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -25,6 +25,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun saveData(view: View) {
+        navView.setCheckedItem(R.id.nav_shoutbox);
         val sharedPreferences = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val login = loginInput.text.toString()
