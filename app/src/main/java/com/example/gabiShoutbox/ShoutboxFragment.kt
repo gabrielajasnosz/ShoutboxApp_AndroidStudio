@@ -49,9 +49,8 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             .build()
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
         ////json
-        val prefs =
-            requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
-        login= prefs.getString("login","").toString();
+
+
 
 
 
@@ -138,6 +137,9 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     override fun onItemClick(//dzialanie edycji - klikniecia na cokolwiek z listy wiadomosci
         item: Message, position: Int
     ) {
+        val prefs =
+            requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        login= prefs.getString("login","").toString();
         if (login == item.login) {
             val bundle = Bundle()
             bundle.putString("login", item.login)

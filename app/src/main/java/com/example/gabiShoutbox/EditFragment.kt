@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,9 @@ import com.example.gabiShoutbox.JsonPlaceholderAPI
 class EditFragment : Fragment() {
 
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
+    private lateinit var infoToast: Toast
     private val baseUrl: String = "http://tgryl.pl/"
+    private lateinit var loginx: String
     private lateinit var button: Button
     private lateinit var textLogin: TextView
     private lateinit var textDate: TextView
@@ -70,17 +73,30 @@ class EditFragment : Fragment() {
         //json
 
         button.setOnClickListener {
-            //dzialanie przycisku save edit
-            content = editTextContent.text.toString()
-            putData()
-            val bundle = Bundle()
-            bundle.putString("login", login)
-            val fragment: Fragment = ShoutboxFragment()
-            fragment.arguments = bundle
-            val fragmentManager: FragmentManager? = fragmentManager
-            fragmentManager?.beginTransaction()
-                ?.replace(R.id.nav_host_fragment, fragment)
-                ?.commit()
+            val prefs =
+                requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+            loginx= prefs.getString("login","").toString();
+            if(loginx==login) {
+                content = editTextContent.text.toString()
+                putData()
+                val bundle = Bundle()
+                bundle.putString("login", login)
+                val fragment: Fragment = ShoutboxFragment()
+                fragment.arguments = bundle
+                val fragmentManager: FragmentManager? = fragmentManager
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, fragment)
+                    ?.commit()
+            }
+            else{
+                makeToast("You can only edit your own messages!!!")
+                val fragment: Fragment = ShoutboxFragment()
+                val fragmentManager: FragmentManager? = fragmentManager
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, fragment)
+                    ?.commit()
+            }
+
         }
 
         return root
@@ -109,5 +125,15 @@ class EditFragment : Fragment() {
                 println(t.message)
             }
         })
+    }
+
+    fun makeToast(myToastText: String) {
+        infoToast = Toast.makeText(
+            context,
+            myToastText,
+            Toast.LENGTH_SHORT
+        )
+        infoToast.setGravity(Gravity.TOP, 0, 200)
+        infoToast.show()
     }
 }

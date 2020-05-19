@@ -63,8 +63,8 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="353dp"
-        android:layout_height="456dp"
+        android:layout_width="351dp"
+        android:layout_height="395dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
 
@@ -86,8 +86,8 @@
     <Button
         android:id="@+id/editButton"
         style="@style/buttonStyle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="302dp"
+        android:layout_height="47dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="33dp"
         android:background="@drawable/button_background"
