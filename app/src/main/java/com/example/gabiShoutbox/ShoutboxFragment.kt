@@ -31,7 +31,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
     private lateinit var retrofit: Retrofit
 
-    val thread = Executors.newSingleThreadScheduledExecutor()
+    val ex = Executors.newSingleThreadScheduledExecutor()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +48,12 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             .build()
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
 
-        beginRefreshing()
+        refreshData()
 
         var swipeRefresh: SwipeRefreshLayout = root.findViewById(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
             if (checkNetworkConnection()) {
-                getAndShowData(jsonPlaceholderAPI)
+                getData(jsonPlaceholderAPI)
                 swipeRefresh.isRefreshing = false
                 makeToast("Data refreshed.")
             } else {
@@ -72,7 +72,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
         }
     }
 
-    fun getAndShowData(jsonPlaceholderAPI: JsonPlaceholderAPI) {
+    fun getData(jsonPlaceholderAPI: JsonPlaceholderAPI) {
         val call = jsonPlaceholderAPI.getMessageArray()
         call!!.enqueue(object : Callback<Array<Message>?> {
             override fun onResponse(
@@ -151,15 +151,15 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
         }
     }
 
-    fun beginRefreshing() {
-        thread.scheduleAtFixedRate({
+    fun refreshData() {
+        ex.scheduleAtFixedRate({
             if (checkNetworkConnection()) {
-                getAndShowData(jsonPlaceholderAPI)
-                Log.d("Executors thread: ", "Odswiezono wiadomosci")
+                getData(jsonPlaceholderAPI)
+                makeToast("Data refreshed automatically.")
             } else {
-                Log.d("Executors thread: ", "Brak polaczenia z internetem")
+                makeToast("Can't refresh data.")
             }
-        }, 0, 10, TimeUnit.SECONDS)
+        }, 0, 30, TimeUnit.SECONDS)
     }
 
 
