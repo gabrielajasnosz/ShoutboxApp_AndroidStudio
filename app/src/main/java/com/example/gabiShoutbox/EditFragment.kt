@@ -25,7 +25,6 @@ class EditFragment : Fragment() {
 
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
     private val baseUrl: String = "http://tgryl.pl/"
-    private lateinit var infoToast: Toast
     private lateinit var button: Button
     private lateinit var textLogin: TextView
     private lateinit var textDate: TextView

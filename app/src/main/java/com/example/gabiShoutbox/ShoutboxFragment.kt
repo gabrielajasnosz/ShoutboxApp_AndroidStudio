@@ -27,7 +27,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     private lateinit var infoToast: Toast
     private lateinit var messagesData: Array<Message>
     private val baseUrl: String = "http://tgryl.pl/"
-    private lateinit var login: String
+    private var login: String = "lol"
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
     private lateinit var retrofit: Retrofit
 
@@ -49,7 +49,12 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             .build()
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
         ////json
-        login = arguments?.getString("login").toString()
+        val prefs =
+            requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        login= prefs.getString("login","").toString();
+
+
+
         beginRefreshing()
 
         var swipeRefresh: SwipeRefreshLayout = root.findViewById(R.id.swipeRefresh)
@@ -161,6 +166,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             }
         }, 0, 10, TimeUnit.SECONDS)
     }
+
 
 }
 
