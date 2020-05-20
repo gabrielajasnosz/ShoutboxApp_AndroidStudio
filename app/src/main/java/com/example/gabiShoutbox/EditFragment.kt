@@ -9,10 +9,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import retrofit2.Retrofit
@@ -33,6 +30,7 @@ class EditFragment : Fragment() {
     private lateinit var textDate: TextView
     private lateinit var textTime: TextView
     private lateinit var editTextContent: EditText
+    private lateinit var deleteButton: ImageButton
 
     private lateinit var login: String
     private lateinit var date: String
@@ -51,6 +49,7 @@ class EditFragment : Fragment() {
         textDate = root.findViewById(R.id.dateEditTextView)
         textTime = root.findViewById(R.id.timeEditTextView)
         button = root.findViewById(R.id.editButton)
+        deleteButton=root.findViewById(R.id.delButton)
 
         login = arguments?.getString("login").toString()
         date = arguments?.getString("date_hour").toString()
@@ -62,7 +61,8 @@ class EditFragment : Fragment() {
         textTime.text = date.subSequence(11, 19)
         editTextContent.setText(content)
 
-        //////////json
+
+
         val retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(
                 GsonConverterFactory
@@ -72,6 +72,28 @@ class EditFragment : Fragment() {
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
         //json
 
+        deleteButton.setOnClickListener {
+            val prefs =
+                requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+            loginx= prefs.getString("login","").toString();
+            if(loginx==login) {
+                deleteData()
+                val fragment: Fragment = ShoutboxFragment()
+                val fragmentManager: FragmentManager? = fragmentManager
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, fragment)
+                    ?.commit()
+            }
+            else{
+                makeToast("You can only delete your messages.")
+                val fragment: Fragment = ShoutboxFragment()
+                val fragmentManager: FragmentManager? = fragmentManager
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, fragment)
+                    ?.commit()
+
+            }
+        }
         button.setOnClickListener {
             val prefs =
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
@@ -89,7 +111,7 @@ class EditFragment : Fragment() {
                     ?.commit()
             }
             else{
-                makeToast("You can only edit your own messages!!!")
+                makeToast("You can only edit your own messages")
                 val fragment: Fragment = ShoutboxFragment()
                 val fragmentManager: FragmentManager? = fragmentManager
                 fragmentManager?.beginTransaction()
@@ -104,9 +126,7 @@ class EditFragment : Fragment() {
 
     private fun putData() {
         val message = Message(login, content)
-
         val call = jsonPlaceholderAPI.createPut(id, message)
-
         call.enqueue(object : Callback<Message> {
             override fun onResponse(
                 call: Call<Message>,
@@ -116,13 +136,12 @@ class EditFragment : Fragment() {
                     println("Code: " + response.code())
                     return
                 }
-            }
 
+            }
             override fun onFailure(
                 call: Call<Message>,
                 t: Throwable
             ) {
-                println(t.message)
             }
         })
     }
@@ -135,5 +154,26 @@ class EditFragment : Fragment() {
         )
         infoToast.setGravity(Gravity.TOP, 0, 200)
         infoToast.show()
+    }
+
+    private fun deleteData() {
+        val call = jsonPlaceholderAPI.createDelete(id)
+        call.enqueue(object : Callback<Message> {
+            override fun onResponse(
+                call: Call<Message>,
+                response: Response<Message>
+            ) {
+                if (!response.isSuccessful) {
+                    println("Code: " + response.code())
+                    return
+                }
+            }
+            override fun onFailure(
+                call: Call<Message>,
+                t: Throwable
+            ) {
+                println(t.message)
+            }
+        })
     }
 }

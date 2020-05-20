@@ -9,7 +9,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +30,9 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     private var login: String = "lol"
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
     private lateinit var retrofit: Retrofit
+    private lateinit var addMessage: ImageButton
+    private lateinit var enterMessage: EditText
+
 
     val ex = Executors.newSingleThreadScheduledExecutor()
 
@@ -40,6 +43,9 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_shoutbox, container, false)
 
+        addMessage = root.findViewById(R.id.addMessage)
+        enterMessage = root.findViewById(R.id.enterMessage)
+
         retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(
                 GsonConverterFactory
@@ -49,6 +55,14 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
 
         refreshData()
+
+        addMessage.setOnClickListener {
+            val prefs =
+                requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+            login= prefs.getString("login","").toString();
+            val mess = Message(login!!, enterMessage.text.toString())
+            sendMessage(mess)
+        }
 
         var swipeRefresh: SwipeRefreshLayout = root.findViewById(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
@@ -163,5 +177,30 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     }
 
 
+    private fun sendMessage(MyMessage: Message) {
+
+        val call = jsonPlaceholderAPI.createPost(MyMessage)
+        call.enqueue(object : Callback<Message> {
+            override fun onFailure(call: Call<Message>,
+                                   t: Throwable
+            ) {
+                makeToast("Can't send message")
+            }
+            override fun onResponse(
+                call: Call<Message>,
+                response: Response<Message>
+            ) {
+                if (!response.isSuccessful) {
+                    println("Code: " + response.code())
+                    return
+                }
+                makeToast("Message sent.")
+            }
+        })
+    }
+
 }
+
+
+
 
