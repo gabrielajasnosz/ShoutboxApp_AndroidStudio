@@ -1,7 +1,10 @@
 package com.example.gabiShoutbox
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -72,47 +75,57 @@ class EditFragment : Fragment() {
             val prefs =
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             loginx= prefs.getString("login","").toString();
-            if(loginx==login) {
-                deleteData(id)
-                val fragment: Fragment = ShoutboxFragment()
-                val fragmentManager: FragmentManager? = fragmentManager
-                fragmentManager?.beginTransaction()
-                    ?.replace(R.id.nav_host_fragment, fragment)
-                    ?.commit()
+            if (checkNetworkConnection()) {
+                if (loginx == login) {
+                    deleteData(id)
+                    makeToast("Message deleted.")
+                    val fragment: Fragment = ShoutboxFragment()
+                    val fragmentManager: FragmentManager? = fragmentManager
+                    fragmentManager?.beginTransaction()
+                        ?.replace(R.id.nav_host_fragment, fragment)
+                        ?.commit()
+                } else {
+                    makeToast("You can only delete your messages.")
+                    val fragment: Fragment = ShoutboxFragment()
+                    val fragmentManager: FragmentManager? = fragmentManager
+                    fragmentManager?.beginTransaction()
+                        ?.replace(R.id.nav_host_fragment, fragment)
+                        ?.commit()
+
+                }
             }
             else{
-                makeToast("You can only delete your messages.")
-                val fragment: Fragment = ShoutboxFragment()
-                val fragmentManager: FragmentManager? = fragmentManager
-                fragmentManager?.beginTransaction()
-                    ?.replace(R.id.nav_host_fragment, fragment)
-                    ?.commit()
-
+                makeToast("No internet connection.")
             }
         }
         button.setOnClickListener {
             val prefs =
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             loginx= prefs.getString("login","").toString();
-            if(loginx==login) {
-                content = editTextContent.text.toString()
-                putData()
-                val bundle = Bundle()
-                bundle.putString("login", login)
-                val fragment: Fragment = ShoutboxFragment()
-                fragment.arguments = bundle
-                val fragmentManager: FragmentManager? = fragmentManager
-                fragmentManager?.beginTransaction()
-                    ?.replace(R.id.nav_host_fragment, fragment)
-                    ?.commit()
+            if (checkNetworkConnection()) {
+                if (loginx == login) {
+                    content = editTextContent.text.toString()
+                    putData()
+                    makeToast("Message edited.")
+                    val bundle = Bundle()
+                    bundle.putString("login", login)
+                    val fragment: Fragment = ShoutboxFragment()
+                    fragment.arguments = bundle
+                    val fragmentManager: FragmentManager? = fragmentManager
+                    fragmentManager?.beginTransaction()
+                        ?.replace(R.id.nav_host_fragment, fragment)
+                        ?.commit()
+                } else {
+                    makeToast("You can only edit your own messages")
+                    val fragment: Fragment = ShoutboxFragment()
+                    val fragmentManager: FragmentManager? = fragmentManager
+                    fragmentManager?.beginTransaction()
+                        ?.replace(R.id.nav_host_fragment, fragment)
+                        ?.commit()
+                }
             }
             else{
-                makeToast("You can only edit your own messages")
-                val fragment: Fragment = ShoutboxFragment()
-                val fragmentManager: FragmentManager? = fragmentManager
-                fragmentManager?.beginTransaction()
-                    ?.replace(R.id.nav_host_fragment, fragment)
-                    ?.commit()
+                makeToast("No internet connection.")
             }
 
         }
@@ -172,4 +185,28 @@ class EditFragment : Fragment() {
             }
         })
     }
+
+
+    fun checkNetworkConnection(): Boolean {
+        val connectivityManager =
+            context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
 }

@@ -65,7 +65,12 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             login= prefs.getString("login","").toString();
             val mess = Message(login!!, enterMessage.text.toString())
-            sendMessage(mess)
+            if (checkNetworkConnection()) {
+                sendMessage(mess)
+            }
+            else{
+                makeToast("No internet connection")
+            }
         }
 
         var swipeRefresh: SwipeRefreshLayout = root.findViewById(R.id.swipeRefresh)
@@ -97,11 +102,18 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val adapter = recyclerView.adapter as MessageAdapter
                     val mess = adapter.getItem(viewHolder.adapterPosition)
-                    if(login == mess.login) {
-                        mess.id?.let { deleteData(it) };
-                        adapter.removeAt(viewHolder.adapterPosition)
-                    } else {
-                        Toast.makeText(context,"This is not your message.",Toast.LENGTH_SHORT).show()
+                    if (checkNetworkConnection()) {
+                        if (login == mess.login) {
+                            mess.id?.let { deleteData(it) };
+                            adapter.removeAt(viewHolder.adapterPosition)
+                            makeToast("Data deleted.")
+                        } else {
+                            makeToast("This is not your message")
+                            getData(jsonPlaceholderAPI);
+                        }
+                    }
+                    else{
+                        makeToast("No internet connection.")
                     }
                 }
             }
