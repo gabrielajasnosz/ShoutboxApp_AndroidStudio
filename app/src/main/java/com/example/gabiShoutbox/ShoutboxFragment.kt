@@ -12,9 +12,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.fragment_shoutbox.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,13 +26,15 @@ import java.util.concurrent.TimeUnit
 
 class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     private lateinit var infoToast: Toast
-    private lateinit var messagesData: Array<Message>
+    private lateinit var messagesData: ArrayList<Message>
     private val baseUrl: String = "http://tgryl.pl/"
     private var login: String = "lol"
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
     private lateinit var retrofit: Retrofit
     private lateinit var addMessage: ImageButton
     private lateinit var enterMessage: EditText
+    private lateinit var recyclerView: RecyclerView
+
 
 
     val ex = Executors.newSingleThreadScheduledExecutor()
@@ -43,6 +46,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_shoutbox, container, false)
 
+        recyclerView= root.findViewById(R.id.recyclerView)
         addMessage = root.findViewById(R.id.addMessage)
         enterMessage = root.findViewById(R.id.enterMessage)
 
@@ -71,6 +75,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                 swipeRefresh.isRefreshing = false
                 makeToast("Data refreshed.")
             } else {
+                swipeRefresh.isRefreshing = false
                 makeToast("No internet connection.")
             }
         }
@@ -83,15 +88,36 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             recyclerView.adapter = MessageAdapter(messagesData, this)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.setHasFixedSize(true)
+
+            val prefs =
+                requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+            login= prefs.getString("login","").toString();
+
+            val swipeHandler = object : SwipeToDeleteCallBack(context){
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val adapter = recyclerView.adapter as MessageAdapter
+                    val mess = adapter.getItem(viewHolder.adapterPosition)
+                    if(login == mess.login) {
+                        mess.id?.let { deleteData(it) };
+                        adapter.removeAt(viewHolder.adapterPosition)
+                    } else {
+                        Toast.makeText(context,"This is not your message.",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(recyclerView)
+
         }
     }
 
     fun getData(jsonPlaceholderAPI: JsonPlaceholderAPI) {
         val call = jsonPlaceholderAPI.getMessageArray()
-        call!!.enqueue(object : Callback<Array<Message>?> {
+        call!!.enqueue(object : Callback<ArrayList<Message>?> {
             override fun onResponse(
-                call: Call<Array<Message>?>,
-                response: Response<Array<Message>?>
+                call: Call<ArrayList<Message>?>,
+                response: Response<ArrayList<Message>?>
             ) {
                 if (!response.isSuccessful) {
                     println("Code: " + response.code())
@@ -102,7 +128,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
             }
 
             override fun onFailure(
-                call: Call<Array<Message>?>,
+                call: Call<ArrayList<Message>?>,
                 t: Throwable
             ) { println(t.message)
             }
@@ -195,6 +221,27 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                     return
                 }
                 makeToast("Message sent.")
+            }
+        })
+    }
+
+    private fun deleteData(id:String) {
+        val call = jsonPlaceholderAPI.createDelete(id)
+        call.enqueue(object : Callback<Message> {
+            override fun onResponse(
+                call: Call<Message>,
+                response: Response<Message>
+            ) {
+                if (!response.isSuccessful) {
+                    println("Code: " + response.code())
+                    return
+                }
+            }
+            override fun onFailure(
+                call: Call<Message>,
+                t: Throwable
+            ) {
+                println(t.message)
             }
         })
     }

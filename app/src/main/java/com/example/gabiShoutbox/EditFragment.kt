@@ -1,10 +1,7 @@
 package com.example.gabiShoutbox
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.gabiShoutbox.JsonPlaceholderAPI
 
 class EditFragment : Fragment() {
 
@@ -53,7 +49,7 @@ class EditFragment : Fragment() {
 
         login = arguments?.getString("login").toString()
         date = arguments?.getString("date_hour").toString()
-        id = arguments?.getString("id").toString()
+        id = arguments?.getString("id")!!.toString()
         content = arguments?.getString("content").toString()
 
         textLogin.text = login
@@ -77,7 +73,7 @@ class EditFragment : Fragment() {
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             loginx= prefs.getString("login","").toString();
             if(loginx==login) {
-                deleteData()
+                deleteData(id)
                 val fragment: Fragment = ShoutboxFragment()
                 val fragmentManager: FragmentManager? = fragmentManager
                 fragmentManager?.beginTransaction()
@@ -156,7 +152,7 @@ class EditFragment : Fragment() {
         infoToast.show()
     }
 
-    private fun deleteData() {
+    private fun deleteData(id: String) {
         val call = jsonPlaceholderAPI.createDelete(id)
         call.enqueue(object : Callback<Message> {
             override fun onResponse(

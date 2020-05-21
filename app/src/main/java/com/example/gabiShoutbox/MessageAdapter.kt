@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_layout.view.*
 
 class MessageAdapter(
-    private var myList: Array<Message>,
+    private val myList: ArrayList<Message>,
     var clickListener: OnItemClickListener
 ) : RecyclerView.Adapter<MessageAdapter.ExampleViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
@@ -45,5 +45,15 @@ class MessageAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(item: Message, position: Int)
+    }
+
+
+    fun getItem(position: Int): Message {
+        return myList[position]
+    }
+
+    fun removeAt(position: Int) {
+        myList.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
