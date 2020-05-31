@@ -65,6 +65,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="Content"
+                    android:fontFamily="@font/architect_font"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/addMessage"
                     app:layout_constraintStart_toStartOf="parent"

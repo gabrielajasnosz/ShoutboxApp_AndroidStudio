@@ -21,13 +21,13 @@
 
     <Button
         android:id="@+id/loginButton"
-        style="@style/buttonStyle"
         android:layout_width="233dp"
         android:layout_height="32dp"
         android:layout_marginBottom="48dp"
         android:background="@drawable/button_background"
-        android:text="Set login"
+        android:fontFamily="@font/arimo"
         android:onClick="saveData"
+        android:text="Set login"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +52,7 @@
         android:layout_height="23dp"
         android:layout_marginBottom="128dp"
         android:text="WHO ARE YOU?"
+        android:fontFamily="@font/architect_font"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"

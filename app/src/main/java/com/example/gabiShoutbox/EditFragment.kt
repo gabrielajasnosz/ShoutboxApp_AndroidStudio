@@ -69,13 +69,12 @@ class EditFragment : Fragment() {
             )
             .build()
         jsonPlaceholderAPI = retrofit.create(JsonPlaceholderAPI::class.java)
-        //json
 
         deleteButton.setOnClickListener {
             val prefs =
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             loginx= prefs.getString("login","").toString();
-            if (checkNetworkConnection()) {
+            if (networkConnection()) {
                 if (loginx == login) {
                     deleteData(id)
                     makeToast("Message deleted.")
@@ -102,7 +101,7 @@ class EditFragment : Fragment() {
             val prefs =
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             loginx= prefs.getString("login","").toString();
-            if (checkNetworkConnection()) {
+            if (networkConnection()) {
                 if (loginx == login) {
                     content = editTextContent.text.toString()
                     putData()
@@ -187,7 +186,7 @@ class EditFragment : Fragment() {
     }
 
 
-    fun checkNetworkConnection(): Boolean {
+    fun networkConnection(): Boolean {
         val connectivityManager =
             context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (connectivityManager != null) {

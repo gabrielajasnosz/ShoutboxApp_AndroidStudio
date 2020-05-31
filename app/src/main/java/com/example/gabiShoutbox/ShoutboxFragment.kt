@@ -27,13 +27,13 @@ import java.util.concurrent.TimeUnit
 class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
     private lateinit var infoToast: Toast
     private lateinit var messagesData: ArrayList<Message>
-    private val baseUrl: String = "http://tgryl.pl/"
-    private var login: String = "lol"
     private lateinit var jsonPlaceholderAPI: JsonPlaceholderAPI
     private lateinit var retrofit: Retrofit
     private lateinit var addMessage: ImageButton
     private lateinit var enterMessage: EditText
     private lateinit var recyclerView: RecyclerView
+    private val baseUrl: String = "http://tgryl.pl/"
+    private var login: String = ""
 
 
 
@@ -65,7 +65,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                 requireActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
             login= prefs.getString("login","").toString();
             val mess = Message(login!!, enterMessage.text.toString())
-            if (checkNetworkConnection()) {
+            if (networkConnection()) {
                 sendMessage(mess)
             }
             else{
@@ -75,7 +75,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
 
         var swipeRefresh: SwipeRefreshLayout = root.findViewById(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
-            if (checkNetworkConnection()) {
+            if (networkConnection()) {
                 getData(jsonPlaceholderAPI)
                 swipeRefresh.isRefreshing = false
                 makeToast("Data refreshed.")
@@ -87,7 +87,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
         return root
     }
 
-    fun updateData() {
+    fun update() {
         if (recyclerView != null) {
             messagesData.reverse();
             recyclerView.adapter = MessageAdapter(messagesData, this)
@@ -102,7 +102,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val adapter = recyclerView.adapter as MessageAdapter
                     val mess = adapter.getItem(viewHolder.adapterPosition)
-                    if (checkNetworkConnection()) {
+                    if (networkConnection()) {
                         if (login == mess.login) {
                             mess.id?.let { deleteData(it) };
                             adapter.removeAt(viewHolder.adapterPosition)
@@ -136,7 +136,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
                     return
                 }
                 messagesData = response.body()!!
-                updateData()
+                update()
             }
 
             override fun onFailure(
@@ -147,7 +147,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
         })
     }
 
-    fun checkNetworkConnection(): Boolean {
+    fun networkConnection(): Boolean {
         val connectivityManager =
             context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (connectivityManager != null) {
@@ -205,7 +205,7 @@ class ShoutboxFragment : Fragment(), MessageAdapter.OnItemClickListener {
 
     fun refreshData() {
         ex.scheduleAtFixedRate({
-            if (checkNetworkConnection()) {
+            if (networkConnection()) {
                 getData(jsonPlaceholderAPI)
                 makeToast("Data refreshed automatically.")
             } else {
